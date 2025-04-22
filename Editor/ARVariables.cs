@@ -203,20 +203,36 @@ namespace AnimationRepathing
         /// returns either the Animator Controller from the Animator Component
         /// OR the Animator Controllers from the selected layers on an Avatar. 
         /// </summary>
-        public static List<AnimatorController> GetControllers()
+        public static List<RuntimeAnimatorController> GetControllers()
         {
-            List<AnimatorController> targetControllers = new List<AnimatorController>();
-
+            List<RuntimeAnimatorController> targetControllers = new List<RuntimeAnimatorController>();
             if (getControllerAutomatically)
             {
                 if (!Selection.activeGameObject) return targetControllers;
                 if (!Selection.activeGameObject.GetComponentInParent<Animator>()?.runtimeAnimatorController) return targetControllers;
 
-                targetControllers.Add(Selection.activeGameObject.GetComponentInParent<Animator>().runtimeAnimatorController as AnimatorController);
+                var animatorController = Selection.activeGameObject.GetComponentInParent<Animator>().runtimeAnimatorController;
+                switch (animatorController)
+                {
+                    case AnimatorController controller:
+                        targetControllers.Add(controller);
+                        break;
+                    case AnimatorOverrideController controller:
+                        targetControllers.Add(controller);
+                        break;
+                }
             }
             else if (controllerSelection == 0 && Animator != null && Animator.runtimeAnimatorController != null)
             {
-                targetControllers.Add(Animator.runtimeAnimatorController as AnimatorController);
+                switch (Animator.runtimeAnimatorController)
+                {
+                    case AnimatorController controller:
+                        targetControllers.Add(controller);
+                        break;
+                    case AnimatorOverrideController controller:
+                        targetControllers.Add(controller);
+                        break;
+                }
             }
 #if VRC_AVATARS
             else if (controllerSelection == 1 && Avatar != null && Avatar.GetComponent<VRCAvatarDescriptor>() != null)

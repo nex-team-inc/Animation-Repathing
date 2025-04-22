@@ -17,12 +17,12 @@ namespace AnimationRepathing
 
         public static class InvalidPaths
         {
-            public static void ScanInvalidPaths(AnimatorController[] controllers)
+            public static void ScanInvalidPaths(RuntimeAnimatorController[] controllers)
             {
                 invalidSharedProperties.Clear();
                 invalidPathToSharedProperty.Clear();
 
-                foreach (AnimatorController controller in controllers)
+                foreach (RuntimeAnimatorController controller in controllers)
                 {
                     foreach (AnimationClip clip in controller.animationClips)
                     {

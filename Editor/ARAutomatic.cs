@@ -66,7 +66,7 @@ namespace AnimationRepathing
             var root = GetRoot();
             shouldRun &= root;
 
-            List<AnimatorController> controllers = GetControllers();
+            List<RuntimeAnimatorController> controllers = GetControllers();
             shouldRun &= controllers != null;
             shouldRun &= controllers.Count > 0;
             if (!shouldRun) return;
@@ -147,10 +147,10 @@ namespace AnimationRepathing
         /// </summary>
         public static bool ScanAnimators()
         {
-            List<AnimatorController> controllers = GetControllers();
+            List<RuntimeAnimatorController> controllers = GetControllers();
             bool returnValue = false;
 
-            foreach (AnimatorController animator in controllers)
+            foreach (RuntimeAnimatorController animator in controllers)
             {
                 foreach (AnimationClip clip in animator.animationClips)
                 {
@@ -177,14 +177,14 @@ namespace AnimationRepathing
         /// Loops through all Animation Clips in an Animator Controller
         /// and changes every animation path which contains the old hierarchy path to the new hierarchy path.
         /// </summary>
-        public static void RepathAnimations(AnimatorController[] targets)
+        public static void RepathAnimations(RuntimeAnimatorController[] targets)
         {
             StringBuilder displayedChanges = new StringBuilder(ARStrings.Popup.debug);
             try
             {
                 AssetDatabase.StartAssetEditing();
 
-                foreach (AnimatorController target in targets)
+                foreach (RuntimeAnimatorController target in targets)
                 {
                     foreach (AnimationClip clip in target.animationClips)
                     {
